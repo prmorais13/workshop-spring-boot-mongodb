@@ -15,30 +15,30 @@ import com.prmorais.workshopmongo.services.exception.ObjectNotFoundException;
 public class UserService {
 
 	@Autowired
-	private UserRepository repo;
+	private UserRepository userRepo;
 	
 	public List<User> findAll() {
-		return repo.findAll();
+		return userRepo.findAll();
 	}
 	
 	public User findById(String id) {
-		Optional<User> obj = repo.findById(id);
+		Optional<User> obj = userRepo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!"));
 	}
 	
 	public User insert(User obj) {
-		return repo.insert(obj);
+		return userRepo.insert(obj);
 	}
 	
 	public void deleteById(String id) {
 		this.findById(id);
-		this.repo.deleteById(id);
+		this.userRepo.deleteById(id);
 	}
 
 	public User update(User obj) {
-		Optional<User> newObj = repo.findById(obj.getId());
+		Optional<User> newObj = userRepo.findById(obj.getId());
 		updateData(newObj, obj);
-		return repo.save(newObj.get());
+		return userRepo.save(newObj.get());
 	}
 	
 	private void updateData(Optional<User> newObj, User obj) {
