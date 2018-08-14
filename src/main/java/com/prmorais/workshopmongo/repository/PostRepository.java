@@ -1,6 +1,7 @@
 package com.prmorais.workshopmongo.repository;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,6 +12,10 @@ import com.prmorais.workshopmongo.domain.Post;
 
 @Repository
 public interface PostRepository extends MongoRepository<Post, String>{
+	
+	@Query("{ $and: [ {data: {$gte: ?1} }, { data: { $lte: ?2} }, { $or: [ { 'title': { $regex: ?0, $options: 'i' } }, "
+			+ "{ 'body': { $regex: ?0, $options: 'i' } }, { 'comments.text': { $regex: ?0, $options: 'i' } } ] } ] }")
+	List<Post> searchFull(String text, Date minData, Date maxData);
 	
 	@Query("{ 'title': { $regex: ?0, $options: 'i' }}" )
 	List<Post> searchTitle(String text);

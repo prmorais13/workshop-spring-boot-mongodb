@@ -1,5 +1,6 @@
 package com.prmorais.workshopmongo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,11 @@ public class PostService {
 	public List<Post> findByTitle(String text) {
 		//return postRepo.findByTitleContainingIgnoreCase(text);
 		return postRepo.searchTitle(text);
+	}
+	
+	public List<Post> searchFull(String text, Date minData, Date maxData) {
+		maxData = new Date(maxData.getTime() + 24 * 60 * 60 * 1000);
+		return postRepo.searchFull(text, minData, maxData);
 	}
 
 }
